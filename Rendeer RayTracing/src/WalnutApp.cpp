@@ -15,35 +15,51 @@ class ExampleLayer : public Walnut::Layer
 public:
 	ExampleLayer() : m_Camera(45.0f, 0.1f, 100.0f)
 	{
+		Material& greenMaterial = m_Scene.Materials.emplace_back();
+		greenMaterial.Albedo = {0.0f, 1.0f, 0.3f};
+		greenMaterial.Roughness = 0.0f;
+		Material& blueMaterial = m_Scene.Materials.emplace_back();
+		blueMaterial.Albedo = { 0.0f, 0.3f, 1.0f };
+		blueMaterial.Roughness = 0.1f;
+
 		{
 			Sphere sphere;
-			sphere.Position = { 0.0f, 0.0f, -0.5f };
-			sphere.Radius = 1.0f;
-			sphere.Albedo = { 0.0f, 1.0f, 1.0f };
+			sphere.Position = { 0.0f, -100.0f, 0.0f };
+			sphere.Radius = 100.0f;
+			sphere.MaterialIndex = 1;
 			m_Scene.Spheres.push_back(sphere);
 		}
 
 		{
 			Sphere sphere;
-			sphere.Position = { 1.0f, 1.0f, 0.0f };
+			sphere.Position = { 0.0f, 0.5f, 0.0f };
 			sphere.Radius = 0.5f;
-			sphere.Albedo = { 1.0f, 0.0f, 1.0f };
 			m_Scene.Spheres.push_back(sphere);
 		}
 	}
 
 	virtual void OnUpdate(float ts) override
 	{
-		m_Camera.OnUpdate(ts);
+		if (m_Camera.OnUpdate(ts))
+			m_Renderer.ResetFrameIndex();
+		
 	}
 
 	virtual void OnUIRender() override
 	{
 		ImGui::Begin("Settings");
 		ImGui::Text("Last Render: %0.3fms", m_LastRenderedTime);
+
+		ImGui::Checkbox("Accumulate", &m_Renderer.GetSettings().Accumulate);
+		if (ImGui::Button("Reset"))
+		{
+			m_Renderer.ResetFrameIndex();
+		}
+
 		ImGui::End();
 
 		ImGui::Begin("Scene");
+		ImGui::Text("Spheres");
 		for (size_t i = 0; i < m_Scene.Spheres.size(); i++)
 		{
 			ImGui::PushID(i);
@@ -51,8 +67,23 @@ public:
 			Sphere& sphere = m_Scene.Spheres[i];
 			ImGui::DragFloat3("Position", glm::value_ptr(sphere.Position), 0.1f);
 			ImGui::DragFloat("Radius", &sphere.Radius, 0.1f, 0.0f);
-			ImGui::ColorEdit3("Albedo", glm::value_ptr(sphere.Albedo));
+			ImGui::DragInt("Material", &sphere.MaterialIndex, 1.0f, 0, (int)m_Scene.Materials.size()-1);
 
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::PopID();
+		}
+
+		ImGui::Text("Materials");
+		for (size_t i = 0; i < m_Scene.Materials.size(); i++)
+		{
+			ImGui::PushID(i);
+
+			Material& material = m_Scene.Materials[i];
+			ImGui::ColorEdit3("Albedo", glm::value_ptr(material.Albedo));
+			ImGui::DragFloat("Roughness", &material.Roughness, 0.001f, 0.0f, 1.0f);
+			ImGui::DragFloat("Metallic", &material.Metallic, 0.001f, 0.0f, 1.0f);
+			
 			ImGui::Spacing();
 			ImGui::Separator();
 			ImGui::PopID();
