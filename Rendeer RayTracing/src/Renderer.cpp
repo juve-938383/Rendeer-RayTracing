@@ -48,7 +48,6 @@ void Renderer::OnResize(uint32_t width, uint32_t height)
 			return;
 
 		m_FinalImage->Resize(width, height);
-		m_aspectRatio = width / (float)height;
 	}
 	else
 	{
@@ -142,7 +141,7 @@ glm::vec4 Renderer::PerPixel(uint32_t x, uint32_t y)
 		if (payload.HitDistance < 0.0f)
 		{
 			glm::vec3 skyColor(0.6f, 0.7f, 0.9f);
-			//light += skyColor * contribution;
+			light += skyColor * contribution;
 			break;
 		}
 

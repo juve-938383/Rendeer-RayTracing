@@ -54,5 +54,4 @@ private:
 	glm::vec4* m_AccumulationData = nullptr;
 	uint32_t m_FrameIndex = 1;
 
-	float m_aspectRatio = 1.0f;
 };
