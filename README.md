@@ -7,6 +7,7 @@ C++ renderer based on the [Ray Tracing series by The Cherno](https://www.youtube
 ![Rendering example](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render1.png)
 \
 \
+
 ## Diffuse & Specular Lighting
 
 Specular: 0%;
@@ -19,18 +20,21 @@ Roughness: 100%; Specular: 100%;
 ![Diffuse & specular lighting example 3](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render4_R1S1.png)
 \
 \
+
 ## Emissive Materials
 
 ![Emissive materials example 1](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render2.png)
 ![Emissive materials example 2](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render3.png)
 \
 \
+
 ## Reflections
 
 ![Reflections example 1](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render8.png)
 ![Reflections example 2](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render7.png)
 \
 \
+
 ## Post-processing
 
 ![Post-processing example](https://github.com/juve-938383/Rendeer-RayTracing/blob/master/Images/Render9.png)
